@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from './utils/supabase/client';
 import { AuthSystem } from "./components/AuthSystem";
 import { Dashboard } from "./components/Dashboard";
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
@@ -47,7 +48,7 @@ export default function App() {
 
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session: Session | null) => {
         if (event === 'SIGNED_IN' && session?.user) {
           const userData: User = {
             id: session.user.id,
